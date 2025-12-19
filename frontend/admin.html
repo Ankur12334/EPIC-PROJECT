@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlatMate — Admin</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/gallery.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"><span class="mark">FM</span><div style="font-size:15px">FlatMate - Admin</div></div>
+      <nav>
+        <a class="btn ghost" href="index.html">Home</a>
+        <a class="btn ghost" href="cities.html">Cities</a>
+        <a id="auth-link" class="btn primary" href="login.html">Login</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="container">
+        <div class="container-card">
+          <h1>Admin — Manage Users & Properties</h1>
+
+          <h2 style="margin-top:12px">Site statistics</h2>
+          <div id="adminStats" class="grid" style="margin-bottom:12px;">
+            <!-- JS: total users, properties, bookings -->
+          </div>
+
+          <h2 style="margin-top:12px">Users</h2>
+          <div id="adminUsers" class="list">
+            <!-- JS renders users with role controls -->
+          </div>
+
+          <!-- NEW: Pending Listings section -->
+          <h2 style="margin-top:12px">Pending Listings</h2>
+          <div id="adminPendingProperties" class="list">
+            <!-- JS renders pending properties with Approve/Reject -->
+          </div>
+
+          <h2 style="margin-top:12px">Properties</h2>
+          <div id="adminProperties" class="list">
+            <!-- JS renders properties. Each item MUST include uploader info (name, phone) and:
+                 - WhatsApp contact button for uploader
+                 - "Delete from site" button that calls DELETE /api/admin/properties/{id}
+            -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="col"><strong>FlatMate</strong><div style="color:var(--muted);margin-top:8px">© 2025</div></div>
+      </div>
+    </footer>
+  </div>
+  <script src="config.js"></script>
+  <script src="scripts.js" defer></script>
+</body>
+</html>

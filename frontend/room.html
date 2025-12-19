@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlatMate — Property</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="assets/gallery.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo"><span class="mark">FM</span><div style="font-size:15px">FlatMate</div></div>
+      <nav>
+        <a class="btn ghost" href="index.html">Home</a>
+        <a class="btn ghost" href="cities.html">Cities</a>
+        <a id="auth-link" class="btn primary" href="login.html">Login</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="container">
+        <div class="container-card" id="propertyDetailCard">
+          <div id="propertyGallery" class="property-gallery">
+            <!-- JS will render main image, thumbnails, prev/next and lightbox -->
+          </div>
+
+          <div id="propertyInfo" class="property-info">
+            <!-- JS populates title, price, description, host info -->
+            <h1 id="propTitle">Loading...</h1>
+            <div class="meta" id="propMeta"></div>
+            <p id="propDesc"></p>
+
+            <div id="hostContact" class="host-contact">
+              <!-- If authenticated show full phone with WhatsApp CTA; otherwise show "Login to view contact" -->
+            </div>
+
+            <div id="bookingArea" style="margin-top:14px;">
+              <button id="bookBtn" class="btn">Book this property</button>
+            </div>
+
+            <div id="bookingResult" aria-live="polite" style="margin-top:12px"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-grid">
+        <div class="col"><strong>FlatMate</strong><div style="color:var(--muted);margin-top:8px">© 2025</div></div>
+      </div>
+    </footer>
+  </div>
+  <script src="config.js"></script>
+  <script src="scripts.js" defer></script>
+  <script src="gallery-lightbox.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>FlatMate — Find Trusted Rooms, PGs & Flatmates</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <!-- ================= HEADER ================= -->
+    <header>
+      <div class="logo">
+        <span class="mark">FM</span>
+        <div style="font-size:15px">FlatMate</div>
+      </div>
+      <nav>
+        <a class="btn ghost" href="host.html">For Owners</a>
+        <a class="btn ghost" href="cities.html">Cities</a>
+        <a id="auth-link" class="btn primary" href="login.html">Login</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- ================= HERO ================= -->
+      <section class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">Trusted by thousands of renters across India</span>
+          <h1>Find a home & flatmate<br>you can actually trust</h1>
+          <p class="lead">
+            Discover verified rooms, PGs and flatshares. Chat directly with owners and flatmates.
+            No brokers, no spam calls, no surprises.
+          </p>
+
+          <!-- Primary search action -->
+          <div class="searchcard" role="search">
+            <input
+              id="searchInput"
+              placeholder="Search city, locality or PG"
+              aria-label="Search city, locality or PG"
+            />
+            <button id="searchBtn">Search</button>
+          </div>
+
+          <!-- Quick suggestions under search -->
+          <div class="hero-quick-row">
+            <div class="hero-quick-label">Popular right now</div>
+            <div class="hero-quick-chips">
+              <button type="button" class="hero-chip" data-query="Bangalore, Whitefield">
+                Bangalore • Whitefield
+              </button>
+              <button type="button" class="hero-chip" data-query="Pune, Hinjawadi">
+                Pune • Hinjawadi
+              </button>
+              <button type="button" class="hero-chip" data-query="Hyderabad, Gachibowli">
+                Hyderabad • Gachibowli
+              </button>
+              <button type="button" class="hero-chip" data-query="Indore, Vijay Nagar">
+                Indore • Vijay Nagar
+              </button>
+            </div>
+          </div>
+
+          <!-- Trust / reassurance row -->
+          <div class="hero-meta">
+            <div class="hero-badges">
+              <div class="hero-badge">
+                <span class="hero-badge-icon">✔</span>
+                <span>Verified owners & tenants</span>
+              </div>
+              <div class="hero-badge">
+                <span class="hero-badge-icon">✔</span>
+                <span>No broker calls</span>
+              </div>
+              <div class="hero-badge">
+                <span class="hero-badge-icon">✔</span>
+                <span>Real photos only</span>
+              </div>
+            </div>
+            <div class="hero-stat">
+              <strong>10,000+</strong> active listings live today
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero visual side -->
+        <div class="hero-illustration" aria-hidden="true">
+          <div class="hero-photo-stack">
+            <img
+              src="https://images.pexels.com/photos/265074/pexels-photo-265074.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="Modern shared living room"
+            />
+            <div class="hero-mini-card">
+              <div class="hero-mini-label">Move-in ready homes</div>
+              <div class="hero-mini-text">Fully-furnished rooms with verified flatmates.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= HOW IT WORKS ================= -->
+      <section class="how-it-works">
+        <div class="how-header">
+          <h2>How FlatMate works</h2>
+          <p>
+            A simple flow from search to move-in — designed to avoid brokers, scams and last-minute drama.
+          </p>
+        </div>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-icon">🔍</div>
+            <h3>Search verified homes</h3>
+            <p>Filter by city, budget, gender preference and more. See real photos and details upfront.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-icon">💬</div>
+            <h3>Chat directly, no brokers</h3>
+            <p>Connect with owners or flatmates, ask questions, schedule visits — all inside the platform.</p>
+          </div>
+          <div class="how-step">
+            <div class="how-icon">🏡</div>
+            <h3>Move in with confidence</h3>
+            <p>Use digital agreements, secure payments and deposit solutions to move in without stress.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= MOBILE EXPERIENCE FEATURE ================= -->
+      <section class="feature alt">
+        <div class="card-illustration" aria-hidden="true">
+          <img
+            src="https://images.pexels.com/photos/3768894/pexels-photo-3768894.jpeg?auto=compress&cs=tinysrgb&w=800"
+            alt="Using FlatMate app on mobile"
+          />
+        </div>
+        <div>
+          <h2>Use FlatMate from anywhere</h2>
+          <p>
+            Stay in sync across devices. Shortlist rooms, chat with owners, and manage visits directly
+            from your phone — without hunting through random groups and listings.
+          </p>
+          <div class="store-row">
+            <a class="small-cta" href="#">Get it on Google Play</a>
+            <a class="small-cta dark" href="#">Download on the App Store</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= AGREEMENT FEATURE ================= -->
+      <section class="feature">
+        <div>
+          <h2>Move in faster with online rental agreements</h2>
+          <p>
+            Create a legally valid rental agreement in minutes. No repeated visits to cyber cafés or
+            photocopy shops — everything handled digitally and securely.
+          </p>
+          <a class="small-cta" href="#">Create rental agreement</a>
+        </div>
+        <div class="card-illustration" aria-hidden="true">
+          <img
+            src="https://imgs.search.brave.com/VSeNYZhaDuucnPg8k_GTsZAdIUmbHJ1ReCmTHgfnXQw/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wNDgv/OTQxLzUyMi9zbWFs/bC9hLWNhcnRvb24t/b2YtcGVvcGxlLXRh/bGtpbmctdG8tZWFj/aC1vdGhlci1mcmVl/LXZlY3Rvci5qcGc"
+            alt="Signing rental agreement online"
+          />
+        </div>
+      </section>
+
+      <!-- ================= DEPOSIT / GUARANTEE FEATURE ================= -->
+      <section class="feature">
+        <div>
+          <h2>Avoid heavy deposits with smart protection</h2>
+          <p>
+            Use rental guarantee and liability protection to reduce upfront deposit amounts while
+            keeping owners fully covered against genuine damages.
+          </p>
+          <a class="small-cta" href="#">See deposit-free options</a>
+        </div>
+        <div class="benefits" aria-hidden="true">
+          <div class="benefit">
+            <div class="icon">📄</div>
+            <div>
+              <strong>Rental Guarantee Bond</strong>
+              <div style="color:var(--muted)">A low-cost alternative to large deposits.</div>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="icon">💳</div>
+            <div>
+              <strong>Liability Protection</strong>
+              <div style="color:var(--muted)">Coverage for accidental damages to property.</div>
+            </div>
+          </div>
+          <div class="benefit">
+            <div class="icon">🏠</div>
+            <div>
+              <strong>Owner Claims</strong>
+              <div style="color:var(--muted)">Fast and transparent resolution for owners.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TRUST / SAFETY STRIP ================= -->
+      <section class="trust-strip">
+        <div class="trust-inner">
+          <div class="trust-header">
+            <h2>Built for safety, not just discovery</h2>
+            <p>
+              Renting is a big decision. FlatMate focuses on verified profiles, transparent information
+              and tools that keep both owners and tenants safer.
+            </p>
+          </div>
+          <div class="trust-grid">
+            <div class="trust-item">
+              <div class="trust-icon">🪪</div>
+              <h3>Profile & phone verification</h3>
+              <p>We verify identity details and phone numbers to reduce spam and fake leads.</p>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon">🖼️</div>
+              <h3>Real, reviewed photos</h3>
+              <p>Listings with misleading or stock images are flagged and removed quickly.</p>
+            </div>
+            <div class="trust-item">
+              <div class="trust-icon">🚩</div>
+              <h3>Report & block protection</h3>
+              <p>Report suspicious profiles in one tap. Repeat offenders are permanently banned.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= CITIES ================= -->
+      <section id="cities" class="cities">
+        <h2>Popular cities on FlatMate</h2>
+        <p class="cities-sub">
+          Browse verified rooms, PGs and flatshares across top locations. More cities being added regularly.
+        </p>
+        <div id="cityGrid" class="city-grid" aria-live="polite">
+          <!-- JS will populate cities here -->
+        </div>
+        <div class="center cities-cta">
+          <a class="small-cta" id="viewAllCities" href="cities.html">View all cities</a>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+      <div class="footer-grid">
+        <div class="col">
+          <strong>FlatMate</strong>
+          <div class="footer-text">
+            Find rooms, PGs & flatmates without negotiating with brokers or dealing with random groups.
+          </div>
+          <div class="footer-copy">© 2025 FlatMate Technologies</div>
+        </div>
+        <div class="col">
+          <strong>Company</strong>
+          <div class="footer-links">
+            <a href="#">About</a>
+            <a href="#">Careers</a>
+            <a href="#">Press</a>
+          </div>
+        </div>
+        <div class="col">
+          <strong>Support</strong>
+          <div class="footer-links">
+            <a href="#">Help Center</a>
+            <a href="#">Contact</a>
+            <a href="#">Safety tips</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="scripts.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sign Up — FlatMate</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="auth-page">
+    <form id="signup-form" class="auth-card" novalidate>
+      <h2>Create account</h2>
+      <div id="signup-error" class="form-error" aria-live="polite"></div>
+      <label>Name<input id="signup-name" type="text" required></label>
+      <label>Phone<input id="signup-phone" type="tel" required placeholder="+911234567890"></label>
+      <label>Email<input id="signup-email" type="email" required></label>
+      <label>Password<input id="signup-password" type="password" required minlength="8"></label>
+      <button class="btn" type="submit">Sign up</button>
+      <p class="muted">Already have an account? <a href="login.html">Login</a></p>
+    </form>
+  </main>
+  <script src="config.js"></script>
+  <script src="scripts.js" defer></script>
+</body>
+</html>

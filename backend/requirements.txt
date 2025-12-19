@@ -1,0 +1,14 @@
+# requirements.txt
+fastapi
+uvicorn[standard]
+sqlalchemy>=1.4
+aiomysql
+alembic
+pydantic
+passlib[bcrypt]
+PyJWT
+httpx
+pytest
+fastapi-pagination
+pydantic-settings>=2.0.0
+

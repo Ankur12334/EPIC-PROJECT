@@ -1,0 +1,122 @@
+/* gallery.css — compact, reliable gallery styles */
+
+/* Container */
+.property-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Main image area */
+.gallery-main {
+  width: 100%;
+  min-height: 240px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  box-shadow: 0 8px 24px rgba(20,20,40,0.06);
+  position: relative;
+}
+
+.gallery-main img {
+  width: auto;
+  max-width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  display: block;
+}
+
+/* Thumbnails row */
+.gallery-thumbs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-top: 6px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.gallery-thumbs img {
+  width: 72px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  flex: 0 0 auto;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.gallery-thumbs img:hover,
+.gallery-thumbs img:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+
+.gallery-thumbs img.selected {
+  border-color: rgba(37,99,235,0.9); /* uses primary tint */
+  box-shadow: 0 8px 20px rgba(37,99,235,0.08);
+}
+
+/* Lightbox overlay (JS inserts .gallery-lightbox on body or a wrapper) */
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10,10,12,0.66);
+  padding: 24px;
+}
+
+.gallery-lightbox .lb-inner {
+  max-width: 95%;
+  max-height: 95%;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gallery-lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px;
+}
+
+/* Controls (prev/next/close) */
+.gallery-lightbox .close-btn,
+.gallery-lightbox .nav-btn {
+  position: absolute;
+  background: rgba(255,255,255,0.92);
+  border: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(20,20,40,0.08);
+}
+
+.gallery-lightbox .close-btn { top: 20px; right: 20px; }
+.gallery-lightbox .nav-btn.left { left: 20px; top: 50%; transform: translateY(-50%); }
+.gallery-lightbox .nav-btn.right { right: 20px; top: 50%; transform: translateY(-50%); }
+
+/* Accessibility: focus outline */
+.gallery-thumbs img:focus,
+.gallery-main img:focus,
+.gallery-lightbox .close-btn:focus,
+.gallery-lightbox .nav-btn:focus {
+  outline: 3px solid rgba(37,99,235,0.14);
+  outline-offset: 3px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 720px) {
+  .gallery-thumbs img { width: 60px; height: 46px; }
+  .gallery-main { min-height: 180px; }
+}

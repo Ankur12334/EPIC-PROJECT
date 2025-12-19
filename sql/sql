@@ -1,0 +1,119 @@
+-- Create database (if not already created)
+CREATE DATABASE IF NOT EXISTS flatmate_db
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_unicode_ci;
+
+USE flatmate_db;
+
+-- =========================
+-- users
+-- =========================
+CREATE TABLE IF NOT EXISTS users (
+  id            INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name          VARCHAR(255) NOT NULL,
+  email         VARCHAR(255) NOT NULL,
+  phone         VARCHAR(10)  NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  role          VARCHAR(20)  NOT NULL DEFAULT 'user',
+  created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  UNIQUE KEY uq_users_email (email),
+  KEY idx_users_role (role)
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+-- =========================
+-- properties
+-- =========================
+CREATE TABLE IF NOT EXISTS properties (
+  id                   INT UNSIGNED     NOT NULL AUTO_INCREMENT,
+  host_id              INT UNSIGNED     NOT NULL,
+  title                VARCHAR(255)     NOT NULL,
+  description          TEXT             NULL,
+  price                DECIMAL(10,2)    NOT NULL,
+  city                 VARCHAR(100)     NOT NULL,
+  locality             VARCHAR(255)     NULL,
+  type                 VARCHAR(50)      NOT NULL DEFAULT 'Room',
+  gender               VARCHAR(20)      NOT NULL DEFAULT 'Any',
+  images               JSON             NOT NULL,
+  is_active            TINYINT(1)       NOT NULL DEFAULT 1,
+  created_at           TIMESTAMP        NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  -- NEW approval fields
+  approval_status      VARCHAR(20)      NOT NULL DEFAULT 'pending',
+  approved_at          DATETIME         NULL,
+  approved_by_admin_id INT UNSIGNED     NULL,
+
+  PRIMARY KEY (id),
+  KEY idx_properties_host_id (host_id),
+  KEY idx_properties_city (city),
+  KEY idx_properties_price (price),
+  KEY idx_properties_is_active (is_active),
+  KEY idx_properties_approval_status (approval_status),
+  KEY idx_properties_approved_by_admin_id (approved_by_admin_id),
+
+  CONSTRAINT fk_properties_host_id_users
+    FOREIGN KEY (host_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_properties_approved_by_admin_id_users
+    FOREIGN KEY (approved_by_admin_id)
+    REFERENCES users(id)
+    ON DELETE SET NULL
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+-- =========================
+-- bookings
+-- =========================
+CREATE TABLE IF NOT EXISTS bookings (
+  id          INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  user_id     INT UNSIGNED  NOT NULL,
+  property_id INT UNSIGNED  NOT NULL,
+  start_date  DATE          NOT NULL,
+  end_date    DATE          NOT NULL,
+  status      VARCHAR(20)   NOT NULL DEFAULT 'pending',
+  created_at  TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+  PRIMARY KEY (id),
+  KEY idx_bookings_user_id (user_id),
+  KEY idx_bookings_property_id (property_id),
+  KEY idx_bookings_start_date (start_date),
+
+  CONSTRAINT fk_bookings_user_id_users
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE,
+
+  CONSTRAINT fk_bookings_property_id_properties
+    FOREIGN KEY (property_id)
+    REFERENCES properties(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
+
+-- =========================
+-- user_refresh_tokens
+-- =========================
+CREATE TABLE IF NOT EXISTS user_refresh_tokens (
+  id         INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  user_id    INT UNSIGNED  NOT NULL,
+  token      TEXT          NOT NULL,
+  created_at TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  revoked    TINYINT(1)    NOT NULL DEFAULT 0,
+
+  PRIMARY KEY (id),
+  KEY idx_user_refresh_tokens_user_id (user_id),
+  KEY idx_user_refresh_tokens_token (token(191)),
+
+  CONSTRAINT fk_user_refresh_tokens_user_id_users
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE
+) ENGINE=InnoDB
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_unicode_ci;
