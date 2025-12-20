@@ -24,12 +24,12 @@ settings = Settings()
 app = FastAPI(title=settings.PROJECT_NAME)
 
 # ---------------------------
-# CORS (MUST be before routers)
+# CORS
 # ---------------------------
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://127.0.0.1:5500",
+        "http://127.0.0.1:5501",
         "http://localhost:5500",
         "http://127.0.0.1:3000",
         "http://localhost:3000",
@@ -42,8 +42,8 @@ app.add_middleware(
 # ---------------------------
 # Static files
 # ---------------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))   # backend/app
-STATIC_DIR = os.path.join(BASE_DIR, "static")           # backend/app/static
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
@@ -60,7 +60,10 @@ async def on_startup():
 # ---------------------------
 app.include_router(auth_router.router, prefix="/api/auth", tags=["auth"])
 app.include_router(users_router.router, prefix="/api/users", tags=["users"])
-app.include_router(properties_router.router, prefix="/api/properties", tags=["properties"])
+
+# 🔥 FIX HERE
+app.include_router(properties_router.router, prefix="/api", tags=["properties"])
+
 app.include_router(bookings_router.router, prefix="/api/bookings", tags=["bookings"])
 app.include_router(host_router.router, prefix="/api/host", tags=["host"])
 app.include_router(admin_router.router, prefix="/api/admin", tags=["admin"])
