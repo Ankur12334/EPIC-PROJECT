@@ -1,5 +1,5 @@
 /******************************
-  Clean — Minimal premium styles
+  Clean â€” Minimal premium styles
   * Keeps existing selectors so JS and pages still work.
   * Refined hierarchy, hero, trust sections, and new blocks.
 ******************************/
@@ -1405,4 +1405,291 @@ a:focus {
   padding: 12px;
 }
 
-/* End — clean stylesheet */
+/* End â€” clean stylesheet */
+
+
+
+/* ============================================================
+   MOBILE UX OVERRIDES â€” FINAL (320pxâ€“767px)
+   ============================================================ */
+@media (max-width: 767px) {
+
+  html, body {
+    width: 100%;
+    overflow-x: hidden;
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  header, nav, main, section, article,
+  .wrap, .container, .grid, .results,
+  .footer-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  a, button, input, select, textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  *:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  h1 { font-size: 26px; }
+  h2 { font-size: 22px; }
+  h3 { font-size: 18px; }
+
+  /* HOME */
+  .hero { gap: 16px; padding: 24px 0; }
+  .hero-illustration { order: -1; }
+  .searchcard { flex-direction: column; }
+  .searchcard input,
+  .searchcard button { width: 100%; }
+
+  /* LISTINGS */
+  .results { grid-template-columns: 1fr !important; }
+  .card { flex-direction: column; }
+  .meta, .tags { display: none; }
+
+  /* BOOKING */
+  .booking-cta {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 12px;
+    box-shadow: 0 -6px 16px rgba(0,0,0,.08);
+  }
+
+  /* HOST FORMS */
+  #propertyFormWrap { padding: 16px; }
+  #propertyForm, .field {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .actions {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 12px;
+  }
+
+  /* room.html */
+  .gallery-thumbs { display: none; }
+  .gallery-main { height: 220px; }
+  .gallery-main img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .room-cta {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    padding: 12px;
+    box-shadow: 0 -6px 16px rgba(0,0,0,.12);
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   PROFILE PAGE – BOOKED ROOMS
+===================================================== */
+
+.profile-section {
+  margin-top: 32px;
+}
+
+.profile-info p {
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+/* Container */
+#profileBookings {
+  margin-top: 16px;
+}
+
+/* Booking Card */
+.profile-booking-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  background: #fff;
+}
+
+/* Title */
+.profile-booking-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111;
+}
+
+/* City */
+.profile-booking-city {
+  font-size: 13px;
+  color: #666;
+  margin-top: 2px;
+}
+
+/* Dates */
+.profile-booking-dates {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Status badge */
+.profile-booking-status {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Status colors */
+.profile-booking-status.pending {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.profile-booking-status.approved {
+  background: #d4edda;
+  color: #155724;
+}
+
+.profile-booking-status.rejected {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.profile-booking-status.cancelled {
+  background: #e2e3e5;
+  color: #383d41;
+}
+
+/* Empty / Error */
+.profile-empty {
+  font-size: 14px;
+  color: #666;
+  padding: 10px 0;
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   NOTIFICATIONS
+===================================================== */
+
+.notif-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.notif-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Dropdown */
+.notif-dropdown {
+  position: absolute;
+  right: 0;
+  top: 32px;
+  width: 320px;
+  max-height: 360px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  z-index: 100;
+}
+
+.notif-item {
+  padding: 12px 14px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+.notif-item.unread {
+  background: #f5f8ff;
+  font-weight: 500;
+}
+
+.notif-item small {
+  display: block;
+  margin-top: 4px;
+  font-size: 11px;
+  color: #777;
+}
+
+.notif-empty {
+  padding: 16px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+}
+

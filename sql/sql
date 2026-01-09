@@ -117,3 +117,21 @@ CREATE TABLE IF NOT EXISTS user_refresh_tokens (
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci;
+
+  CREATE OR REPLACE VIEW property_availability AS
+SELECT 
+    p.*,
+    CASE
+        WHEN EXISTS (
+            SELECT 1
+            FROM bookings b
+            WHERE b.property_id = p.id
+              AND b.status IN ('confirmed', 'active')
+              AND b.start_date <= CURDATE()
+              AND b.end_date >= CURDATE()
+        )
+        THEN 'BOOKED'
+        ELSE 'AVAILABLE'
+    END AS availability_status
+FROM properties p;
+

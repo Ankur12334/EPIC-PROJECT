@@ -854,19 +854,18 @@ const app = (function () {
             <div style="flex:1">
               <h3 style="margin:0">${escapeHtml(p.title)}</h3>
               <div style="color:var(--muted);font-size:13px">${escapeHtml(
-                p.locality || ''
-              )}, ${escapeHtml(p.city || '')} • ₹${escapeHtml(
+          p.locality || ''
+        )}, ${escapeHtml(p.city || '')} • ₹${escapeHtml(
           String(p.price || '')
         )}/mo</div>
               <div style="margin-top:6px;color:var(--muted);font-size:13px">
                 Uploaded by: ${escapeHtml(uploaderName || '—')}
               </div>
               <div style="margin-top:6px;font-size:13px">
-                Phone: ${
-                  uploaderPhone
-                    ? escapeHtml(uploaderPhone)
-                    : '<span style="color:#999">No phone on file</span>'
-                }
+                Phone: ${uploaderPhone
+            ? escapeHtml(uploaderPhone)
+            : '<span style="color:#999">No phone on file</span>'
+          }
               </div>
               <div style="margin-top:6px;font-size:12px;color:var(--muted)">
                 Status: ${escapeHtml(p.approval_status || 'pending')}
@@ -874,11 +873,11 @@ const app = (function () {
             </div>
             <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end">
               <button class="btn" data-action="approve" data-id="${escapeAttr(
-                p.id
-              )}">Approve</button>
+            p.id
+          )}">Approve</button>
               <button class="btn btn-outline" data-action="reject" data-id="${escapeAttr(
-                p.id
-              )}">Reject</button>
+            p.id
+          )}">Reject</button>
             </div>
           </div>
         `;
@@ -952,7 +951,7 @@ const app = (function () {
       document.getElementById(
         'propMeta'
       ).textContent = `${property.locality || ''}, ${property.city || ''} • ₹${property.price || ''
-        }`;
+      }`;
       document.getElementById('propDesc').textContent =
         property.description || '';
 
@@ -1243,7 +1242,7 @@ const app = (function () {
       else container.insertAdjacentElement('afterbegin', wrap);
 
       // HIGHLIGHTS (chips)
-      const H = ['Working full time','College student','25+ age','<25 age','Working night shifts','Have 2 wheeler','Have 4 wheeler','Will shift immediately','Have pets','Need no furnishing','Pure vegetarian'];
+      const H = ['Working full time', 'College student', '25+ age', '<25 age', 'Working night shifts', 'Have 2 wheeler', 'Have 4 wheeler', 'Will shift immediately', 'Have pets', 'Need no furnishing', 'Pure vegetarian'];
       const hw = document.getElementById('highlightsWrap');
       H.forEach(v => {
         const b = document.createElement('button');
@@ -1271,7 +1270,7 @@ const app = (function () {
           try {
             const sel = Array.isArray(editData.highlights) ? editData.highlights : JSON.parse(editData.highlights);
             hw.querySelectorAll('.chip').forEach(c => c.classList.toggle('selected', sel.includes(c.dataset.value)));
-          } catch(e){}
+          } catch (e) { }
         }
         document.getElementById('propertyFormHeading').textContent = 'Edit listing';
       }
@@ -1319,7 +1318,7 @@ const app = (function () {
       fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
       fileDrop.addEventListener('drop', e => {
         e.preventDefault(); fileDrop.classList.remove('dragover');
-        const files = Array.from(e.dataTransfer.files || []).slice(0,6);
+        const files = Array.from(e.dataTransfer.files || []).slice(0, 6);
         const dt = new DataTransfer(); files.forEach(f => dt.items.add(f)); fileInput.files = dt.files;
         renderPreviews(fileInput.files);
       });
@@ -1328,12 +1327,12 @@ const app = (function () {
       function renderPreviews(files) {
         preview.innerHTML = '';
         if (!files) return;
-        Array.from(files).slice(0,6).forEach(f => {
+        Array.from(files).slice(0, 6).forEach(f => {
           if (!f.type.startsWith('image/')) return;
           const url = URL.createObjectURL(f);
           const img = document.createElement('img'); img.src = url; img.className = 'preview-img';
           const holder = document.createElement('div'); holder.className = 'preview-item';
-          const del = document.createElement('button'); del.type='button'; del.className='preview-del'; del.textContent='✕';
+          const del = document.createElement('button'); del.type = 'button'; del.className = 'preview-del'; del.textContent = '✕';
           del.addEventListener('click', () => {
             const remaining = Array.from(fileInput.files).filter(x => x !== f);
             const d = new DataTransfer(); remaining.forEach(r => d.items.add(r)); fileInput.files = d.files;
@@ -1367,7 +1366,7 @@ const app = (function () {
           fd.append('highlights', JSON.stringify(selected));
 
           const files = fileInput.files || [];
-          for (let i=0;i<files.length;i++) fd.append('images', files[i]);
+          for (let i = 0; i < files.length; i++) fd.append('images', files[i]);
 
           if (editData && editData.id) {
             await api.updateProperty(editData.id, fd);
@@ -1566,6 +1565,54 @@ const app = (function () {
       ui.showToast(err.message || 'Failed to load host bookings', 'error');
     }
   }
+
+
+  async function loadProfilePage() {
+    const container = document.getElementById('bookedRoomsContainer');
+    if (!container) return;
+
+    try {
+      const res = await withAuthFetch(
+        `${BASE_API_URL}/api/users/booked-rooms`,
+        { method: 'GET' }
+      );
+
+      const body = await res.json().catch(() => ({}));
+      const list = body?.data || [];
+
+      if (!list.length) {
+        container.innerHTML = '<p>No booked rooms yet.</p>';
+        return;
+      }
+
+      container.innerHTML = '';
+
+      list.forEach(b => {
+        const el = document.createElement('div');
+        el.className = 'card';
+        el.style.marginTop = '12px';
+
+        el.innerHTML = `
+        <strong>${b.title}</strong>
+        <div style="color:var(--muted); margin-top:4px">
+          ${b.city}<br/>
+          ${b.start_date} → ${b.end_date}<br/>
+          Status: ${b.status}
+        </div>
+      `;
+
+        container.appendChild(el);
+      });
+
+    } catch (err) {
+      container.innerHTML = '<p>Failed to load booked rooms.</p>';
+    }
+  }
+
+
+
+
+
 
   async function loadAdminPanel() {
     try {
@@ -1901,6 +1948,9 @@ const app = (function () {
 
     } else if (path === 'admin.html') {
       await loadAdminPanel();
+
+    } else if (path === 'profile.html') {
+      await loadProfilePage();
     } else if (path === 'login.html') {
       const form = document.getElementById('login-form');
       if (form)
@@ -1988,6 +2038,65 @@ const app = (function () {
     updateAuthLinks
   };
 })();
+
+
+
+
+
+// room booked feature in profile page 
+async function loadBookedRooms() {
+  const container = document.getElementById("bookedRoomsContainer");
+  if (!container) return;
+
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const res = await fetch("/api/user/booked-rooms", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await res.json();
+
+    if (!result.success || result.data.length === 0) {
+      container.innerHTML =
+        "<p class='empty'>You have not booked any rooms yet.</p>";
+      return;
+    }
+
+    container.innerHTML = "";
+
+    result.data.forEach((room) => {
+      const div = document.createElement("div");
+      div.className = "booked-room-card";
+
+      div.innerHTML = `
+        <h3>${room.title}</h3>
+        <p><strong>City:</strong> ${room.city}</p>
+        <p><strong>From:</strong> ${room.start_date}</p>
+        <p><strong>To:</strong> ${room.end_date}</p>
+        <p><strong>Status:</strong> ${room.status}</p>
+      `;
+
+      container.appendChild(div);
+    });
+  } catch (err) {
+    container.innerHTML =
+      "<p class='error'>Failed to load booked rooms.</p>";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", loadBookedRooms);
+
+
+
+
+
+
+
+
+
 
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
