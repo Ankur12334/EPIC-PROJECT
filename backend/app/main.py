@@ -29,8 +29,8 @@ app = FastAPI(title=settings.PROJECT_NAME)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://127.0.0.1:5502",
         "http://127.0.0.1:5501",
+        "http://127.0.0.1:5502",
         "http://localhost:5500",
         "http://127.0.0.1:3000",
         "http://localhost:3000",
@@ -65,7 +65,7 @@ app.include_router(users_router.router, prefix="/api/users", tags=["users"])
 # 🔥 FIX HERE
 app.include_router(properties_router.router, prefix="/api", tags=["properties"])
 
-app.include_router(bookings_router.router, prefix="/api", tags=["bookings"])
+app.include_router(bookings_router.router, prefix="/api/bookings", tags=["bookings"])
 app.include_router(host_router.router, prefix="/api/host", tags=["host"])
 app.include_router(admin_router.router, prefix="/api/admin", tags=["admin"])
 app.include_router(upload_router.router, prefix="/api/upload", tags=["upload"])
