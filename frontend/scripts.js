@@ -1186,10 +1186,6 @@ const app = (function () {
           <input type="hidden" id="propertyFormGender" name="gender" value="any" />
         </div>
 
-        <div class="field full">
-          <label class="label">Choose Highlights</label>
-          <div id="highlightsWrap" class="chips"></div>
-        </div>
 
         <div class="field full">
           <label class="label">Description</label>
@@ -1873,6 +1869,19 @@ const app = (function () {
     }
   }
 
+
+  function updateAuthLinks() {
+  const logoutBtn = document.getElementById('logoutBtn');
+  const loginLink = document.getElementById('auth-link');
+
+  const isLoggedIn = !!app.auth.getAccessToken();
+
+  if (logoutBtn) logoutBtn.style.display = isLoggedIn ? 'inline-block' : 'none';
+  if (loginLink) loginLink.style.display = isLoggedIn ? 'none' : 'inline-block';
+}
+
+
+
   /* -----------------------
      Page init detection and wiring
      ----------------------- */
@@ -1946,7 +1955,7 @@ const app = (function () {
         }, 80);
       }
 
-    } else if (path === 'admin.html') {
+    } else if (path === 'adminshyam466116.html') {
       await loadAdminPanel();
 
     } else if (path === 'profile.html') {
@@ -2023,7 +2032,7 @@ const app = (function () {
           ? me.name.slice(0, 14) + '..'
           : me.name
         : 'Profile';
-      link.href = 'profile.html';
+      link.href = 'index.html';// add profile.html here to add profile page by clicking 
     } else {
       link.textContent = 'Login';
       link.href = 'login.html';
@@ -2091,13 +2100,6 @@ document.addEventListener("DOMContentLoaded", loadBookedRooms);
 
 
 
-
-
-
-
-
-
-
 // Initialize on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   app
@@ -2111,4 +2113,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (DEBUG) console.error('app init error', err);
     });
+});
+
+
+document.addEventListener('click', function (e) {
+  if (e.target && e.target.id === 'logoutBtn') {
+    e.preventDefault();
+    app.auth.logout();
+  }
 });

@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Mac
+.DS_Store
+
+# Uploads (runtime files)
+backend/app/static/uploads/
+
+# Env
+.env
+

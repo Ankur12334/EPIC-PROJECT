@@ -9,13 +9,15 @@ from app.db.session import get_db
 from app.db import crud_properties, models
 from app.schemas.property import PropertyDetail, PropertyBase
 
+# 🔥 ADD THESE IMPORTS
+from app.core.deps import get_current_user_optional
+from app.db.models import User
+
 router = APIRouter()
 
 
 @router.get("/cities")
 async def get_cities(db: AsyncSession = Depends(get_db)):
-    # return plain array [{city, count}]
-    # NOW: counts only approved & active properties via CRUD.
     cities = await crud_properties.list_cities(db)
     return cities
 
@@ -32,9 +34,6 @@ async def list_properties(
     gender: Optional[str] = None,
     sort: Optional[str] = None,
 ):
-    """
-    Public listings – ALWAYS approved & active only.
-    """
     filters = {
         "city": city,
         "min_price": min_price,
@@ -55,22 +54,23 @@ async def list_properties(
         "page": page,
         "per_page": per_page,
     }
-    # scripts.js expects: { success, data: { items, total, page, per_page } }
     return {"success": True, "data": page_obj}
 
 
 @router.get("/properties/{prop_id}")
-async def get_property_detail(prop_id: int, db: AsyncSession = Depends(get_db)):
+async def get_property_detail(
+    prop_id: int,
+    db: AsyncSession = Depends(get_db),
+    current_user: User | None = Depends(get_current_user_optional),  # 👈 LOGIN CHECK
+):
     """
-    Fetch a single property and eagerly load its host relationship so that
-    Pydantic validation does not attempt lazy-loading (which raises MissingGreenlet).
-
-    Note: this endpoint currently does NOT hide pending/rejected listings if a
-    user knows the ID. All list/search APIs are filtered to approved only.
+    Fetch a single property with conditional access:
+    - NOT logged in → hide owner phone, chat, booking
+    - Logged in → allow all
     """
     stmt = (
         select(models.Property)
-        .options(selectinload(models.Property.host))  # eagerly load host relationship
+        .options(selectinload(models.Property.host))
         .where(models.Property.id == prop_id)
     )
     result = await db.execute(stmt)
@@ -79,5 +79,17 @@ async def get_property_detail(prop_id: int, db: AsyncSession = Depends(get_db)):
     if not prop:
         raise HTTPException(status_code=404, detail="Not found")
 
+    # existing pydantic validation (UNCHANGED)
     detail = PropertyDetail.model_validate(prop).model_dump()
+
+    # 🔥 CORE FEATURE LOGIC (THIS IS WHAT YOU ASKED)
+    if current_user:
+        detail["owner_phone"] = prop.host.phone
+        detail["can_chat"] = True
+        detail["can_book"] = True
+    else:
+        detail["owner_phone"] = None
+        detail["can_chat"] = False
+        detail["can_book"] = False
+
     return {"success": True, "data": detail}

@@ -3,21 +3,52 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Login — FlatMate</title>
+  <title>Login — FLATX</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="auth-page">
+
+<main class="auth-page">
+  <div class="auth-layout">
+
     <form id="login-form" class="auth-card" novalidate>
-      <h2>Login</h2>
-      <div id="login-error" class="form-error" aria-live="polite"></div>
-      <label>Email<input id="login-email" type="email" required></label>
-      <label>Password<input id="login-password" type="password" required></label>
-      <button class="btn" type="submit">Login</button>
-      <p class="muted">Don't have an account? <a href="signup.html">Sign up</a></p>
+      <h2>Sign In</h2>
+      <p class="auth-subtitle">Access your FLATX account</p>
+
+      <div id="login-error" class="form-error"></div>
+
+      <label>
+        Email
+        <input id="login-email" type="email" required>
+      </label>
+
+      <label>
+        Password
+        <input id="login-password" type="password" required>
+      </label>
+
+      <button class="btn" type="submit">Sign In</button>
+
+      <p class="muted">
+        Don’t have an account?
+        <a href="signup.html">Create one</a>
+      </p>
     </form>
-  </main>
-  <script src="config.js"></script>
-  <script src="scripts.js" defer></script>
+
+    <div class="auth-brand">
+      <div class="brand-content">
+        <h1>FLATX</h1>
+        <p>
+          Find rooms faster.<br>
+          Move with confidence.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="scripts.js" defer></script>
 </body>
 </html>

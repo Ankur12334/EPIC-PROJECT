@@ -1,15 +1,19 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>FlatMate — Rooms</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="wrap">
     <header>
-      <div class="logo"><span class="mark">FM</span><div style="font-size:15px">FlatMate</div></div>
+      <div class="logo">
+        <img src="logo1.png" alt="">
+      </div>
       <nav>
         <a class="btn ghost" href="index.html">Home</a>
         <a class="btn ghost" href="cities.html">Cities</a>
@@ -28,9 +32,23 @@
           <div class="controls" style="margin-top:12px">
             <input id="filter-min" placeholder="Min rent (₹)" type="number" />
             <input id="filter-max" placeholder="Max rent (₹)" type="number" />
-            <select id="filter-type"><option value="">All types</option><option>Room</option><option>PG</option><option>Flatmate</option></select>
-            <select id="filter-gender"><option value="">Any</option><option>Male</option><option>Female</option><option>Other</option></select>
-            <select id="filter-sort"><option value="recent">Newest</option><option value="price_asc">Price ↑</option><option value="price_desc">Price ↓</option></select>
+            <select id="filter-type">
+              <option value="">All types</option>
+              <option>Room</option>
+              <option>PG</option>
+              <option>Flatmate</option>
+            </select>
+            <select id="filter-gender">
+              <option value="">Any</option>
+              <option>Male</option>
+              <option>Female</option>
+              <option>Other</option>
+            </select>
+            <select id="filter-sort">
+              <option value="recent">Newest</option>
+              <option value="price_asc">Price ↑</option>
+              <option value="price_desc">Price ↓</option>
+            </select>
             <button id="applyFilters" class="btn">Apply</button>
             <button id="resetFilters" class="btn btn-outline">Reset</button>
           </div>
@@ -48,11 +66,14 @@
 
     <footer>
       <div class="footer-grid">
-        <div class="col"><strong>FlatMate</strong><div style="color:var(--muted);margin-top:8px">© 2025</div></div>
+        <div class="col"><strong>FlatMate</strong>
+          <div style="color:var(--muted);margin-top:8px">© 2025</div>
+        </div>
       </div>
     </footer>
   </div>
   <script src="config.js"></script>
   <script src="scripts.js" defer></script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,10 +8,13 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="assets/gallery.css">
 </head>
+
 <body>
   <div class="wrap">
     <header>
-      <div class="logo"><span class="mark">FM</span><div style="font-size:15px">FlatMate - Admin</div></div>
+      <div class="logo">
+        <img src="logo1.png" alt="">
+      </div>
       <nav>
         <a class="btn ghost" href="index.html">Home</a>
         <a class="btn ghost" href="cities.html">Cities</a>
@@ -39,24 +43,30 @@
             <!-- JS renders pending properties with Approve/Reject -->
           </div>
 
-          <h2 style="margin-top:12px">Properties</h2>
-          <div id="adminProperties" class="list">
-            <!-- JS renders properties. Each item MUST include uploader info (name, phone) and:
+          <!-- <br> -->
+          <!-- <h2 style="margin-top:12px">Properties</h2> -->
+          <!-- <br> -->
+          <!-- <div id="adminProperties" class="list"> -->
+          <!-- <br> -->
+          <!-- JS renders properties. Each item MUST include uploader info (name, phone) and:
                  - WhatsApp contact button for uploader
                  - "Delete from site" button that calls DELETE /api/admin/properties/{id}
             -->
-          </div>
         </div>
-      </section>
-    </main>
+  </div>
+  </section>
+  </main>
 
-    <footer>
-      <div class="footer-grid">
-        <div class="col"><strong>FlatMate</strong><div style="color:var(--muted);margin-top:8px">© 2025</div></div>
+  <footer>
+    <div class="footer-grid">
+      <div class="col"><strong>FlatMate</strong>
+        <div style="color:var(--muted);margin-top:8px">© 2025</div>
       </div>
-    </footer>
+    </div>
+  </footer>
   </div>
   <script src="config.js"></script>
   <script src="scripts.js" defer></script>
 </body>
+
 </html>

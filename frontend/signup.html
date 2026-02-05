@@ -3,23 +3,62 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sign Up — FlatMate</title>
+  <title>Sign Up — FLATX</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="auth-page">
+
+<main class="auth-page " style="overflow: hidden;">
+  <div class="auth-layout">
+
     <form id="signup-form" class="auth-card" novalidate>
-      <h2>Create account</h2>
-      <div id="signup-error" class="form-error" aria-live="polite"></div>
-      <label>Name<input id="signup-name" type="text" required></label>
-      <label>Phone<input id="signup-phone" type="tel" required placeholder="+911234567890"></label>
-      <label>Email<input id="signup-email" type="email" required></label>
-      <label>Password<input id="signup-password" type="password" required minlength="8"></label>
-      <button class="btn" type="submit">Sign up</button>
-      <p class="muted">Already have an account? <a href="login.html">Login</a></p>
+      <h2>Create Account</h2>
+      <p class="auth-subtitle">Join FLATX in seconds</p>
+
+      <div id="signup-error" class="form-error"></div>
+
+      <label>
+        Name
+        <input id="signup-name" type="text" required>
+      </label>
+
+      <label>
+        Phone
+        <input id="signup-phone" type="tel" required>
+      </label>
+
+      <label>
+        Email
+        <input id="signup-email" type="email" required>
+      </label>
+
+      <label>
+        Password
+        <input id="signup-password" type="password" minlength="8" required>
+      </label>
+
+      <button class="btn" type="submit">Sign Up</button>
+
+      <p class="muted">
+        Already have an account?
+        <a href="login.html">Login</a>
+      </p>
     </form>
-  </main>
-  <script src="config.js"></script>
-  <script src="scripts.js" defer></script>
+
+    <div class="auth-brand">
+      <div class="brand-content">
+        <h1>FLATX</h1>
+        <p>
+          Your journey starts here.<br>
+          Simple. Secure. Smart.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script src="config.js"></script>
+<script src="scripts.js" defer></script>
 </body>
 </html>

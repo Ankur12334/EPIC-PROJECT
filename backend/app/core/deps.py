@@ -1,7 +1,7 @@
 # app/core/deps.py
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -31,7 +31,7 @@ async def get_current_user(
     token = credentials.credentials
 
     try:
-        payload = verify_access_token(token)  # <- this replaces any old `decode_token`
+        payload = verify_access_token(token)
     except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -76,3 +76,36 @@ def require_role(role: str):
 # Aliases if old code imports these names directly
 CurrentUser = Annotated[User, Depends(get_current_user)]
 AdminUser = Annotated[User, Depends(require_role("admin"))]
+
+
+# ✅ OPTIONAL USER (THIS IS THE NEW PART – DO NOT REMOVE)
+async def get_current_user_optional(
+    request: Request,
+    db: Annotated[AsyncSession, Depends(get_db)],
+) -> User | None:
+    """
+    Same auth logic as get_current_user, BUT:
+    - No Authorization header → returns None
+    - Invalid token → returns None
+    - Valid token → returns User
+    """
+
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        return None
+
+    token = auth_header.split(" ", 1)[1]
+
+    try:
+        payload = verify_access_token(token)
+    except Exception:
+        return None
+
+    user_id = payload.get("sub")
+    if not user_id:
+        return None
+
+    res = await db.execute(select(User).where(User.id == int(user_id)))
+    user = res.scalar_one_or_none()
+
+    return user
