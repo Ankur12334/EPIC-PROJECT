@@ -2295,3 +2295,33 @@ html, body {
   overflow: auto;
 }
 
+#hostContact div {
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #0128d791 !important;
+  letter-spacing: 0.3px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+#hostContact div:hover {
+  color: #0056b3 !important;
+  text-decoration: underline;
+}
+
+#hostContact div {
+  font-weight: 600;
+  color: #007bff !important;
+  letter-spacing: 0.3px;
+  transition: 0.2s ease;
+  cursor: pointer;
+}
+
+#hostContact div:hover {
+  color: #0056b3 !important;
+  text-decoration: underline;
+}
+
+#logoutBtn{
+  margin-top: 17px;
+}

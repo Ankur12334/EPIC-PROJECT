@@ -1122,27 +1122,26 @@ const app = (function () {
 
     /* ---------- Show create / edit property form (insert into host page) ---------- */
     async renderPropertyForm(editData = null) {
-      const container = document.querySelector('.container-card');
-      if (!container) return;
-      if (document.getElementById('propertyFormWrap')) {
-        document.getElementById('propertyFormTitle')?.focus();
-        return;
-      }
+  const container = document.querySelector('.container-card');
+  if (!container) return;
 
-      const wrap = document.createElement('div');
-      wrap.id = 'propertyFormWrap';
-      wrap.className = 'card';
-      wrap.innerHTML = `
+  if (document.getElementById('propertyFormWrap')) {
+    document.getElementById('propertyFormTitle')?.focus();
+    return;
+  }
+
+  const wrap = document.createElement('div');
+  wrap.id = 'propertyFormWrap';
+  wrap.className = 'card';
+
+  wrap.innerHTML = `
     <div class="form-top">
-      <div class="form-top-left">
-        <h2 id="propertyFormHeading">${editData ? 'Edit listing' : 'Add your requirement'}</h2>
-        <div class="form-sub">so that other users can contact you.</div>
-      </div>
       <button id="propertyFormClose" class="close-btn" aria-label="Close">✕</button>
     </div>
 
     <form id="propertyForm" enctype="multipart/form-data" autocomplete="off">
       <div class="grid">
+
         <div class="field large">
           <label class="label">Title</label>
           <input id="propertyFormTitle" name="title" placeholder="e.g. 1BHK near VIT Bhopal" required />
@@ -1186,17 +1185,16 @@ const app = (function () {
           <input type="hidden" id="propertyFormGender" name="gender" value="any" />
         </div>
 
-
         <div class="field full">
           <label class="label">Description</label>
-          <textarea id="propertyFormDesc" name="description" rows="4" placeholder="Describe your requirement (optional)"></textarea>
+          <textarea id="propertyFormDesc" name="description" rows="4"
+            placeholder="Describe your requirement (optional)"></textarea>
         </div>
 
         <div class="field full">
           <label class="label">Images</label>
           <label class="file-drop" for="propertyFormImages">
             <div class="file-drop-left">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 3v12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 7l4-4 4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
               <span class="fd-text">Click or drop images here</span>
             </div>
             <span class="fd-note">PNG/JPG • up to 6</span>
@@ -1222,168 +1220,141 @@ const app = (function () {
           </div>
           <input type="hidden" id="propertyFormMobileVisible" name="mobile_visible" value="no" />
         </div>
+
       </div>
 
       <div class="actions">
-        <button id="propertyFormSubmit" type="submit" class="btn primary">${editData ? 'Update' : 'Create'}</button>
+        <button id="propertyFormSubmit" type="submit" class="btn primary">
+          ${editData ? 'Update' : 'Create'}
+        </button>
         <button id="propertyFormCancel" type="button" class="btn outline">Cancel</button>
         <div id="propertyFormMsg" class="status"></div>
       </div>
     </form>
   `;
 
-      // insert into DOM
-      const hostActions = document.getElementById('hostActions');
-      if (hostActions) hostActions.insertAdjacentElement('afterend', wrap);
-      else container.insertAdjacentElement('afterbegin', wrap);
+  const hostActions = document.getElementById('hostActions');
+  if (hostActions) hostActions.insertAdjacentElement('afterend', wrap);
+  else container.insertAdjacentElement('afterbegin', wrap);
 
-      // HIGHLIGHTS (chips)
-      const H = ['Working full time', 'College student', '25+ age', '<25 age', 'Working night shifts', 'Have 2 wheeler', 'Have 4 wheeler', 'Will shift immediately', 'Have pets', 'Need no furnishing', 'Pure vegetarian'];
-      const hw = document.getElementById('highlightsWrap');
-      H.forEach(v => {
-        const b = document.createElement('button');
-        b.type = 'button'; b.className = 'chip'; b.textContent = v; b.dataset.value = v;
-        b.addEventListener('click', () => b.classList.toggle('selected'));
-        hw.appendChild(b);
-      });
+  // populate edit data
+  if (editData) {
+    document.getElementById('propertyFormTitle').value = editData.title || '';
+    document.getElementById('propertyFormCity').value = editData.city || '';
+    document.getElementById('propertyFormLocality').value = editData.locality || '';
+    document.getElementById('propertyFormPrice').value = editData.price || '';
+    document.getElementById('propertyFormDesc').value = editData.description || '';
 
-      // populate editData
-      if (editData) {
-        document.getElementById('propertyFormTitle').value = editData.title || '';
-        document.getElementById('propertyFormCity').value = editData.city || '';
-        document.getElementById('propertyFormLocality').value = editData.locality || '';
-        document.getElementById('propertyFormPrice').value = editData.price || '';
-        document.getElementById('propertyFormDesc').value = editData.description || '';
-        if (editData.type) {
-          document.getElementById('propertyFormType').value = editData.type;
-          wrap.querySelectorAll('#typePills .pill').forEach(p => p.classList.toggle('active', p.dataset.value === editData.type));
-        }
-        if (editData.gender) {
-          document.getElementById('propertyFormGender').value = editData.gender;
-          wrap.querySelectorAll('#genderPills .pill').forEach(p => p.classList.toggle('active', p.dataset.value === editData.gender));
-        }
-        if (editData.highlights) {
-          try {
-            const sel = Array.isArray(editData.highlights) ? editData.highlights : JSON.parse(editData.highlights);
-            hw.querySelectorAll('.chip').forEach(c => c.classList.toggle('selected', sel.includes(c.dataset.value)));
-          } catch (e) { }
-        }
-        document.getElementById('propertyFormHeading').textContent = 'Edit listing';
-      }
-
-      // close / cancel
-      wrap.querySelector('#propertyFormClose').addEventListener('click', () => {
-        const el = document.getElementById('propertyFormWrap'); if (el) el.remove();
-        const params = getQueryParams(); delete params.create; delete params.edit; updateQueryParams(params);
-      });
-      wrap.querySelector('#propertyFormCancel').addEventListener('click', () => wrap.querySelector('#propertyFormClose').click());
-
-      // pills handlers
-      wrap.querySelectorAll('#typePills .pill').forEach(btn => {
-        btn.addEventListener('click', () => {
-          wrap.querySelectorAll('#typePills .pill').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('propertyFormType').value = btn.dataset.value;
-        });
-      });
-      wrap.querySelectorAll('#genderPills .pill').forEach(btn => {
-        btn.addEventListener('click', () => {
-          wrap.querySelectorAll('#genderPills .pill').forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          document.getElementById('propertyFormGender').value = btn.dataset.value;
-        });
-      });
-
-      // mini toggles
-      wrap.querySelectorAll('.mini-pill').forEach(p => {
-        p.addEventListener('click', () => {
-          const t = p.dataset.target;
-          wrap.querySelectorAll(`.mini-pill[data-target="${t}"]`).forEach(s => s.classList.remove('active'));
-          p.classList.add('active');
-          const hid = document.getElementById(t);
-          if (hid) hid.value = p.dataset.value;
-        });
-      });
-
-      // file drop + preview
-      const fileInput = wrap.querySelector('#propertyFormImages');
-      const preview = wrap.querySelector('#imagePreview');
-      const fileDrop = wrap.querySelector('.file-drop');
-
-      fileDrop.addEventListener('dragover', e => { e.preventDefault(); fileDrop.classList.add('dragover'); });
-      fileDrop.addEventListener('dragleave', () => fileDrop.classList.remove('dragover'));
-      fileDrop.addEventListener('drop', e => {
-        e.preventDefault(); fileDrop.classList.remove('dragover');
-        const files = Array.from(e.dataTransfer.files || []).slice(0, 6);
-        const dt = new DataTransfer(); files.forEach(f => dt.items.add(f)); fileInput.files = dt.files;
-        renderPreviews(fileInput.files);
-      });
-      fileInput.addEventListener('change', () => renderPreviews(fileInput.files));
-
-      function renderPreviews(files) {
-        preview.innerHTML = '';
-        if (!files) return;
-        Array.from(files).slice(0, 6).forEach(f => {
-          if (!f.type.startsWith('image/')) return;
-          const url = URL.createObjectURL(f);
-          const img = document.createElement('img'); img.src = url; img.className = 'preview-img';
-          const holder = document.createElement('div'); holder.className = 'preview-item';
-          const del = document.createElement('button'); del.type = 'button'; del.className = 'preview-del'; del.textContent = '✕';
-          del.addEventListener('click', () => {
-            const remaining = Array.from(fileInput.files).filter(x => x !== f);
-            const d = new DataTransfer(); remaining.forEach(r => d.items.add(r)); fileInput.files = d.files;
-            renderPreviews(fileInput.files);
-          });
-          holder.appendChild(img); holder.appendChild(del); preview.appendChild(holder);
-        });
-      }
-
-      // submit
-      const form = wrap.querySelector('#propertyForm');
-      const msgEl = wrap.querySelector('#propertyFormMsg');
-      form.addEventListener('submit', async ev => {
-        ev.preventDefault();
-        try {
-          wrap.querySelector('#propertyFormSubmit').disabled = true;
-          msgEl.textContent = editData ? 'Updating...' : 'Creating...';
-
-          const fd = new FormData();
-          fd.append('title', wrap.querySelector('#propertyFormTitle').value.trim());
-          fd.append('city', wrap.querySelector('#propertyFormCity').value.trim());
-          fd.append('locality', wrap.querySelector('#propertyFormLocality').value.trim());
-          fd.append('price', wrap.querySelector('#propertyFormPrice').value.trim());
-          fd.append('type', wrap.querySelector('#propertyFormType').value);
-          fd.append('gender', wrap.querySelector('#propertyFormGender').value);
-          fd.append('description', wrap.querySelector('#propertyFormDesc').value.trim());
-          fd.append('pg', wrap.querySelector('#propertyFormPG')?.value || 'no');
-          fd.append('mobile_visible', wrap.querySelector('#propertyFormMobileVisible')?.value || 'no');
-
-          const selected = Array.from(hw.querySelectorAll('.chip.selected')).map(c => c.dataset.value);
-          fd.append('highlights', JSON.stringify(selected));
-
-          const files = fileInput.files || [];
-          for (let i = 0; i < files.length; i++) fd.append('images', files[i]);
-
-          if (editData && editData.id) {
-            await api.updateProperty(editData.id, fd);
-            ui.showToast('Property updated', 'success');
-          } else {
-            await api.createProperty(fd);
-            // NEW: show pending approval message
-            ui.showToast('Listing created and pending admin approval.', 'success');
-          }
-
-          const el = document.getElementById('propertyFormWrap'); if (el) el.remove();
-          const params = getQueryParams(); delete params.create; delete params.edit; updateQueryParams(params);
-          await loadHostProperties(); await loadHostBookings();
-        } catch (err) {
-          ui.showToast(err.message || 'Failed to save property', 'error');
-          msgEl.textContent = err.message || 'Error';
-        } finally {
-          wrap.querySelector('#propertyFormSubmit').disabled = false;
-        }
-      });
+    if (editData.type) {
+      document.getElementById('propertyFormType').value = editData.type;
+      wrap.querySelectorAll('#typePills .pill')
+        .forEach(p => p.classList.toggle('active', p.dataset.value === editData.type));
     }
+
+    if (editData.gender) {
+      document.getElementById('propertyFormGender').value = editData.gender;
+      wrap.querySelectorAll('#genderPills .pill')
+        .forEach(p => p.classList.toggle('active', p.dataset.value === editData.gender));
+    }
+  }
+
+  // close / cancel
+  wrap.querySelector('#propertyFormClose')
+    .addEventListener('click', () => wrap.remove());
+
+  wrap.querySelector('#propertyFormCancel')
+    .addEventListener('click', () =>
+      wrap.querySelector('#propertyFormClose').click()
+    );
+
+  // pill handlers
+  wrap.querySelectorAll('#typePills .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wrap.querySelectorAll('#typePills .pill')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('propertyFormType').value = btn.dataset.value;
+    });
+  });
+
+  wrap.querySelectorAll('#genderPills .pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wrap.querySelectorAll('#genderPills .pill')
+        .forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('propertyFormGender').value = btn.dataset.value;
+    });
+  });
+
+  wrap.querySelectorAll('.mini-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      const t = p.dataset.target;
+      wrap.querySelectorAll(`.mini-pill[data-target="${t}"]`)
+        .forEach(s => s.classList.remove('active'));
+      p.classList.add('active');
+      const hid = document.getElementById(t);
+      if (hid) hid.value = p.dataset.value;
+    });
+  });
+
+  // image preview
+  const fileInput = wrap.querySelector('#propertyFormImages');
+  const preview = wrap.querySelector('#imagePreview');
+
+  fileInput.addEventListener('change', () => {
+    preview.innerHTML = '';
+    Array.from(fileInput.files).slice(0, 6).forEach(f => {
+      if (!f.type.startsWith('image/')) return;
+      const img = document.createElement('img');
+      img.src = URL.createObjectURL(f);
+      img.className = 'preview-img';
+      preview.appendChild(img);
+    });
+  });
+
+  // submit
+  const form = wrap.querySelector('#propertyForm');
+  const msgEl = wrap.querySelector('#propertyFormMsg');
+
+  form.addEventListener('submit', async ev => {
+    ev.preventDefault();
+
+    try {
+      wrap.querySelector('#propertyFormSubmit').disabled = true;
+      msgEl.textContent = editData ? 'Updating...' : 'Creating...';
+
+      const fd = new FormData();
+      fd.append('title', wrap.querySelector('#propertyFormTitle').value.trim());
+      fd.append('city', wrap.querySelector('#propertyFormCity').value.trim());
+      fd.append('locality', wrap.querySelector('#propertyFormLocality').value.trim());
+      fd.append('price', wrap.querySelector('#propertyFormPrice').value.trim());
+      fd.append('type', wrap.querySelector('#propertyFormType').value);
+      fd.append('gender', wrap.querySelector('#propertyFormGender').value);
+      fd.append('description', wrap.querySelector('#propertyFormDesc').value.trim());
+      fd.append('pg', wrap.querySelector('#propertyFormPG').value);
+      fd.append('mobile_visible', wrap.querySelector('#propertyFormMobileVisible').value);
+
+      // keep backend safe
+      fd.append('highlights', JSON.stringify([]));
+
+      Array.from(fileInput.files).forEach(f => fd.append('images', f));
+
+      if (editData && editData.id)
+        await api.updateProperty(editData.id, fd);
+      else
+        await api.createProperty(fd);
+
+      wrap.remove();
+      await loadHostProperties();
+      await loadHostBookings();
+
+    } catch (err) {
+      msgEl.textContent = err.message || 'Error';
+    } finally {
+      wrap.querySelector('#propertyFormSubmit').disabled = false;
+    }
+  });
+}
 
   };
 
